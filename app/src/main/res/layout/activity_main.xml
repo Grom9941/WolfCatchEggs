@@ -7,12 +7,12 @@
     tools:context=".MainActivity">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/relative"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="69dp"
-        tools:layout_editor_absoluteY="33dp"
-        android:id="@+id/relative">
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <ImageView
             android:id="@+id/imageViewNintendo"
@@ -84,9 +84,9 @@
             android:layout_width="170dp"
             android:layout_height="103dp"
             android:layout_above="@+id/imageButton1"
+            android:layout_toLeftOf="@+id/imageViewWolf"
             android:layout_toStartOf="@+id/imageViewWolf"
-            app:srcCompat="@drawable/tube1"
-            android:layout_toLeftOf="@+id/imageViewWolf" />
+            app:srcCompat="@drawable/tube1" />
 
         <ImageView
             android:id="@+id/imageViewTube2"
@@ -119,19 +119,19 @@
             android:id="@+id/imageViewEgg1"
             android:layout_width="33dp"
             android:layout_height="36dp"
+            android:layout_alignLeft="@+id/imageViewTube3"
             android:layout_alignStart="@+id/imageViewTube3"
-            android:layout_alignTop="@+id/imageViewTube1"
 
-            android:layout_alignLeft="@+id/imageViewTube3" />
+            android:layout_alignTop="@+id/imageViewTube1" />
 
         <ImageView
             android:id="@+id/imageViewEgg2"
             android:layout_width="33dp"
             android:layout_height="36dp"
             android:layout_alignEnd="@+id/imageViewTube4"
-            android:layout_alignTop="@+id/imageViewTube1"
+            android:layout_alignRight="@+id/imageViewTube4"
 
-            android:layout_alignRight="@+id/imageViewTube4" />
+            android:layout_alignTop="@+id/imageViewTube1" />
 
         <ImageView
             android:id="@+id/imageViewEgg3"
@@ -147,9 +147,54 @@
             android:layout_width="33dp"
             android:layout_height="36dp"
             android:layout_alignEnd="@+id/imageViewTube4"
-            android:layout_alignTop="@+id/imageButton1"
+            android:layout_alignRight="@+id/imageViewTube4"
 
-            android:layout_alignRight="@+id/imageViewTube4" />
+            android:layout_alignTop="@+id/imageButton1" />
+
+        <ImageView
+            android:id="@+id/imageViewEgg13Crush"
+            android:layout_width="33dp"
+            android:layout_height="36dp"
+            android:layout_alignBottom="@+id/imageViewWolf"
+            android:layout_toLeftOf="@+id/imageViewWolf"
+            android:layout_toStartOf="@+id/imageViewWolf" />
+
+        <ImageView
+            android:id="@+id/imageViewEgg24Crush"
+            android:layout_width="33dp"
+            android:layout_height="36dp"
+            android:layout_alignBottom="@+id/imageViewWolf"
+            android:layout_toEndOf="@+id/imageViewWolf"
+            android:layout_toRightOf="@+id/imageViewWolf" />
+
+        <ImageView
+            android:id="@+id/imageViewLife1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/imageViewTube1"
+            android:layout_toStartOf="@+id/imageViewLife2"
+            app:srcCompat="@android:drawable/btn_star_big_on"
+            tools:ignore="UnknownId"
+            android:layout_toLeftOf="@+id/imageViewLife2" />
+
+        <ImageView
+            android:id="@+id/imageViewLife2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/imageViewTube1"
+            android:layout_toStartOf="@+id/imageViewLife3"
+            app:srcCompat="@android:drawable/btn_star_big_on"
+            tools:ignore="RtlCompat,UnknownId" />
+
+        <ImageView
+            android:id="@+id/imageViewLife3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/imageViewWolf"
+            android:layout_alignTop="@+id/imageViewTube1"
+            app:srcCompat="@android:drawable/btn_star_big_on"
+            android:layout_alignRight="@+id/imageViewWolf"
+            tools:ignore="RtlCompat" />
 
     </RelativeLayout>
 
