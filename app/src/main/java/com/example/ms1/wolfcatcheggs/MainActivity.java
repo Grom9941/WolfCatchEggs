@@ -14,15 +14,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Random;
 import java.util.Timer;
-// todo how compare png and imageview
 
 public class MainActivity extends AppCompatActivity {
     Timer timer;
@@ -32,34 +31,52 @@ public class MainActivity extends AppCompatActivity {
     long animatorDiraction = 3000;
     Byte wolfPosition = 1;
     Byte life = 3;
+    Boolean checkEnd = false;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         timer=new Timer();
 
-        final long[] newEgg = {5000};
-        final long[] maxTime = {newEgg[0] * 2 + 100};
-//        long maxTime = Long.MAX_VALUE;
+        final long[] spawnNewEgg = {5000};
+        final long[] maxTimeSpawn = {spawnNewEgg[0] * 2 + 100};
 
-        final CountDownTimer waitTimer = new CountDownTimer(maxTime[0], newEgg[0]) {
+        final CountDownTimer waitTimer = new CountDownTimer(Long.MAX_VALUE,100) {
+
             @Override
             public void onTick(long millisUntilFinished) {
-                if (life>0) {
-                    spawnEgg();
-                } else newEgg[0] =Long.MAX_VALUE;
+                if (!checkEnd) {
+                    startTimer(maxTimeSpawn[0], spawnNewEgg[0]);
+                    if (spawnNewEgg[0]>200) {
+                        spawnNewEgg[0] -= 24;
+                        maxTimeSpawn[0] = spawnNewEgg[0] * 2 + 100;
+                    }
+                }
             }
 
             @Override
             public void onFinish() {
-                newEgg[0]=1000;
-                maxTime[0] = newEgg[0]*2+100;
-                this.start();
             }
         }.start();
 
+    }
+
+    private void startTimer(long maxTime,long newEgg){
+
+        checkEnd=true;
+        CountDownTimer waitTimer = new CountDownTimer(maxTime, newEgg) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if (life>0) { spawnEgg(); }
+            }
+            @Override
+            public void onFinish() {
+                checkEnd=false;
+            }
+        }.start();
     }
 
 
@@ -149,43 +166,40 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.imageViewWolf).getDrawingRect(rc2);
 
                 if (whereTube==1) {
+                    relativeLayout.removeView(view1);
                     if (Rect.intersects(rc1, rc2) && wolfPosition == 1) {
-                        relativeLayout.removeView(view1);
                         if (z==5) { catchLife(relativeLayout,view1); }
                         if (z==6) { catchCurrent(); }
                         if (z==7) { catchBomb(); }
                     } else {
                         if (z<5) { dontCatch((ImageView) findViewById(R.id.imageViewEgg13Crush)); }
-                        else relativeLayout.removeView(view1);
                     }
                 } else if (whereTube==2) {
+                    relativeLayout.removeView(view1);
                     if (Rect.intersects(rc1, rc2) && wolfPosition == 2) {
-                        relativeLayout.removeView(view1);
                         if (z==5) { catchLife(relativeLayout,view1); }
                         if (z==6) { catchCurrent(); }
                         if (z==7) { catchBomb(); }
                     }else {
                         if (z<5) { dontCatch((ImageView) findViewById(R.id.imageViewEgg24Crush)); }
-                        else relativeLayout.removeView(view1);
                     }
                 } else if (whereTube==3) {
+                    relativeLayout.removeView(view1);
                     if (Rect.intersects(rc1, rc2) && wolfPosition == 3) {
-                        relativeLayout.removeView(view1);
                         if (z==5) { catchLife(relativeLayout,view1); }
                         if (z==6) { catchCurrent(); }
                         if (z==7) { catchBomb(); }
                     } else {
                         if (z<5) { dontCatch((ImageView) findViewById(R.id.imageViewEgg13Crush)); }
-                        else relativeLayout.removeView(view1);
                     }
                 } else if (whereTube==4) {
+                    relativeLayout.removeView(view1);
                     if (Rect.intersects(rc1, rc2) && wolfPosition == 4) {
-                        relativeLayout.removeView(view1);
                         if (z==5) { catchLife(relativeLayout,view1); }
                         if (z==6) { catchCurrent(); }
+                        if (z==7) { catchBomb(); }
                     } else {
                         if (z<5) { dontCatch((ImageView) findViewById(R.id.imageViewEgg24Crush)); }
-                        else relativeLayout.removeView(view1);
                     }
                 }
             }
@@ -195,16 +209,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void catchBomb() {
-        life--;
-        if (life==2){
-            ((ImageView)findViewById(R.id.imageViewLife1)).setImageResource(0);
-        } else ((ImageView)findViewById(R.id.imageViewLife2)).setImageResource(0);
 
-//        ImageView imageView = findViewById(R.id.imageViewWolf);
-//        imageView.setBackgroundResource(R.drawable.bombing);
-//        AnimationDrawable animation = (AnimationDrawable) imageView.getBackground();
-//        animation.setOneShot(false);
-//        animation.start();
+        ImageView imageView = findViewById(R.id.imageViewForAnimation);
+        imageView.setBackgroundResource(R.drawable.bombing_animation);
+        final AnimationDrawable animation = (AnimationDrawable) imageView.getBackground();
+        animation.start();
+        final Animation a = AnimationUtils.loadAnimation(this,R.anim.fade);
+
+        final int[] anim = {1};
+        CountDownTimer waitTimer = new CountDownTimer(4500, 2000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if (anim[0] ==2) {
+                    animation.stop();
+                    findViewById(R.id.imageViewForAnimation).startAnimation(a);
+                } else anim[0]++;
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        }.start();
+
+
+//        animation.stop();
     }
 
     private void catchCurrent() {
