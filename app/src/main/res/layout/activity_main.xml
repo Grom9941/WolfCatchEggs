@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteX="33dp"
         tools:layout_editor_absoluteY="0dp">
 
         <ImageView
@@ -169,31 +169,31 @@
 
         <ImageView
             android:id="@+id/imageViewLife1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_alignTop="@+id/imageViewTube1"
             android:layout_toStartOf="@+id/imageViewLife2"
-            app:srcCompat="@android:drawable/btn_star_big_on"
+            app:srcCompat="@drawable/heart"
             tools:ignore="UnknownId"
             android:layout_toLeftOf="@+id/imageViewLife2" />
 
         <ImageView
             android:id="@+id/imageViewLife2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/imageViewTube1"
-            android:layout_toStartOf="@+id/imageViewLife3"
-            app:srcCompat="@android:drawable/btn_star_big_on"
+            android:layout_marginEnd="286dp"
+            app:srcCompat="@drawable/heart"
             tools:ignore="RtlCompat,UnknownId" />
 
         <ImageView
             android:id="@+id/imageViewLife3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_alignEnd="@+id/imageViewWolf"
             android:layout_alignTop="@+id/imageViewTube1"
-            app:srcCompat="@android:drawable/btn_star_big_on"
-            android:layout_alignRight="@+id/imageViewWolf"
+            app:srcCompat="@drawable/heart"
             tools:ignore="RtlCompat" />
 
     </RelativeLayout>

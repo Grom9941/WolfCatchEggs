@@ -5,28 +5,20 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.CountDownTimer;
-import android.os.SystemClock;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import java.sql.Driver;
 import java.util.Random;
 import java.util.Timer;
-import java.util.concurrent.TimeUnit;
-
-import static android.content.ContentValues.TAG;
 // todo how compare png and imageview
 
 public class MainActivity extends AppCompatActivity {
@@ -45,20 +37,23 @@ public class MainActivity extends AppCompatActivity {
 
         timer=new Timer();
 
-        final long[] newEgg = {1000};
-        long maxTime = Long.MAX_VALUE;
+        final long[] newEgg = {5000};
+        final long[] maxTime = {newEgg[0] * 2 + 100};
+//        long maxTime = Long.MAX_VALUE;
 
-        final CountDownTimer waitTimer = new CountDownTimer(maxTime, newEgg[0]) {
+        final CountDownTimer waitTimer = new CountDownTimer(maxTime[0], newEgg[0]) {
             @Override
             public void onTick(long millisUntilFinished) {
                 if (life>0) {
                     spawnEgg();
-                    newEgg[0]-=500;
                 } else newEgg[0] =Long.MAX_VALUE;
             }
 
             @Override
             public void onFinish() {
+                newEgg[0]=1000;
+                maxTime[0] = newEgg[0]*2+100;
+                this.start();
             }
         }.start();
 
@@ -67,39 +62,68 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void spawnEgg(){
-        byte random1 = (byte) (new Random().nextInt(4)+1);
-        egg(random1);
-//                egg((byte) 1);
+        byte random1 = (byte) (new Random().nextInt(50)+10);
+        Integer random2 = new Random().nextInt(4)+1;
+
+
+            switch (random1/10) {
+                case 5:egg((byte) (random1/10),random2);// с 50 до 59
+                case 6:egg((byte) (random1/10),random2); //60
+                default:egg((byte) (random1/10),random2);//с 1 до 49
+            }
+//                egg((byte) 1,random2);
     }
 
-    public void egg(final Byte z) {
-        LayoutInflater inflater = getLayoutInflater();
-        final View view1 = inflater.inflate(R.layout.egg,null,false);
-        final RelativeLayout relativeLayout = findViewById(R.id.relative);
+    @SuppressLint("InflateParams")
+    public void egg(final Byte z, final Integer whereTube) {
+        final RelativeLayout relativeLayout;
+        final View view1;
+        if (z<5) {
+            LayoutInflater inflater = getLayoutInflater();
+            view1 = inflater.inflate(R.layout.egg, null, false);
+            relativeLayout = findViewById(R.id.relative);
+        } else if (z==5) {
+            LayoutInflater inflater = getLayoutInflater();
+            view1 = inflater.inflate(R.layout.heart, null, false);
+            relativeLayout = findViewById(R.id.relative);
+        } else {
+            LayoutInflater inflater = getLayoutInflater();
+            view1 = inflater.inflate(R.layout.heart, null, false);
+            relativeLayout = findViewById(R.id.relative);
+        }
 
-        ObjectAnimator animatorX = new ObjectAnimator();
-        ObjectAnimator animatorY = new ObjectAnimator();
+        ObjectAnimator animatorX;
+        ObjectAnimator animatorY;
         float x = 0;
         float y = 0;
 
-        if (z==1) {
-            x = 550f;y = 270f;
-            view1.setX(findViewById(R.id.imageViewEgg1).getX());
-            view1.setY(findViewById(R.id.imageViewEgg1).getY());
-            relativeLayout.addView(view1);
-        } else if (z==2) {
-            x=1150f;y=270f;
-            view1.setX(findViewById(R.id.imageViewEgg2).getX());view1.setY(findViewById(R.id.imageViewEgg2).getY());
-            relativeLayout.addView(view1);
-        } else if (z==3) {
-            x=600f;y=570f;
-            view1.setX(findViewById(R.id.imageViewEgg3).getX());view1.setY(findViewById(R.id.imageViewEgg3).getY());
-            relativeLayout.addView(view1);
-        } else {
-            x = 1100f;y = 570f;
-            view1.setX(findViewById(R.id.imageViewEgg4).getX());view1.setY(findViewById(R.id.imageViewEgg4).getY());
-            relativeLayout.addView(view1);
+        switch (whereTube) {
+            case 1:
+                x = 550f;
+                y = 270f;
+                view1.setX(findViewById(R.id.imageViewEgg1).getX());
+                view1.setY(findViewById(R.id.imageViewEgg1).getY());
+                break;
+            case 2:
+                x = 1150f;
+                y = 270f;
+                view1.setX(findViewById(R.id.imageViewEgg2).getX());
+                view1.setY(findViewById(R.id.imageViewEgg2).getY());
+                break;
+            case 3:
+                x = 600f;
+                y = 570f;
+                view1.setX(findViewById(R.id.imageViewEgg3).getX());
+                view1.setY(findViewById(R.id.imageViewEgg3).getY());
+                break;
+            case 4:
+                x = 1100f;
+                y = 570f;
+                view1.setX(findViewById(R.id.imageViewEgg4).getX());
+                view1.setY(findViewById(R.id.imageViewEgg4).getY());
+                break;
         }
+        relativeLayout.addView(view1);
 
         animatorX = ObjectAnimator.ofFloat(view1,"x",x);
         animatorX.setDuration(animatorDiraction);
@@ -124,155 +148,73 @@ public class MainActivity extends AppCompatActivity {
                 Rect rc2 = new Rect();
                 findViewById(R.id.imageViewWolf).getDrawingRect(rc2);
 
-                if (z==1) {
+                if (whereTube==1) {
                     if (Rect.intersects(rc1, rc2) && wolfPosition == 1) {
                         relativeLayout.removeView(view1);
+                        if (z==5) { catchLife(relativeLayout,view1); }
                     } else {
-                        life--;
-                        if (life==2){
-                            ((ImageView)findViewById(R.id.imageViewLife1)).setImageResource(0);
-                        } else ((ImageView)findViewById(R.id.imageViewLife2)).setImageResource(0);
-                        final int[] l = {1};
-                        relativeLayout.removeView(view1);
-                        ((ImageView)findViewById(R.id.imageViewEgg13Crush)).setImageResource(R.drawable.egg);
-                        CountDownTimer waitTimer = new CountDownTimer(1500, 500) {
-                            @Override
-                            public void onTick(long millisUntilFinished) {
-                                if (l[0] !=1) {
-                                    ((ImageView) findViewById(R.id.imageViewEgg13Crush)).setImageResource(0);
-                                } else l[0]++;
-                            }
-
-                            @Override
-                            public void onFinish() {
-                            }
-                        }.start();
-
+                        if (z<5) { dontCatch((ImageView) findViewById(R.id.imageViewEgg13Crush), relativeLayout, view1); }
+                        else relativeLayout.removeView(view1);
                     }
-                } else if (z==2) {
+                } else if (whereTube==2) {
                     if (Rect.intersects(rc1, rc2) && wolfPosition == 2) {
                         relativeLayout.removeView(view1);
+                        if (z==5) { catchLife(relativeLayout,view1); }
                     }else {
-                        life--;
-                        if (life==2){
-                            ((ImageView)findViewById(R.id.imageViewLife1)).setImageResource(0);
-                        } else ((ImageView)findViewById(R.id.imageViewLife2)).setImageResource(0);
-                        final int[] l = {1};
-                        relativeLayout.removeView(view1);
-                        ((ImageView)findViewById(R.id.imageViewEgg24Crush)).setImageResource(R.drawable.egg);
-                        CountDownTimer waitTimer = new CountDownTimer(1500, 500) {
-                            @Override
-                            public void onTick(long millisUntilFinished) {
-                                if (l[0] !=1) {
-                                    ((ImageView) findViewById(R.id.imageViewEgg24Crush)).setImageResource(0);
-                                } else l[0]++;
-                            }
-
-                            @Override
-                            public void onFinish() {
-                            }
-                        }.start();
-
+                        if (z<5) { dontCatch((ImageView) findViewById(R.id.imageViewEgg24Crush), relativeLayout, view1); }
+                        else relativeLayout.removeView(view1);
                     }
-                } else if (z==3) {
+                } else if (whereTube==3) {
                     if (Rect.intersects(rc1, rc2) && wolfPosition == 3) {
                         relativeLayout.removeView(view1);
+                        if (z==5) { catchLife(relativeLayout,view1); }
                     } else {
-                        life--;
-                        if (life==2){
-                            ((ImageView)findViewById(R.id.imageViewLife1)).setImageResource(0);
-                        } else ((ImageView)findViewById(R.id.imageViewLife2)).setImageResource(0);
-                        final int[] l = {1};
-                        relativeLayout.removeView(view1);
-                        ((ImageView)findViewById(R.id.imageViewEgg13Crush)).setImageResource(R.drawable.egg);
-                        CountDownTimer waitTimer = new CountDownTimer(1500, 500) {
-                            @Override
-                            public void onTick(long millisUntilFinished) {
-                                if (l[0] !=1) {
-                                    ((ImageView) findViewById(R.id.imageViewEgg13Crush)).setImageResource(0);
-                                } else l[0]++;
-                            }
-
-                            @Override
-                            public void onFinish() {
-                            }
-                        }.start();
-
+                        if (z<5) { dontCatch((ImageView) findViewById(R.id.imageViewEgg13Crush),relativeLayout,view1); }
+                        else relativeLayout.removeView(view1);
                     }
-                } else {
+                } else if (whereTube==4) {
                     if (Rect.intersects(rc1, rc2) && wolfPosition == 4) {
                         relativeLayout.removeView(view1);
+                        if (z==5) { catchLife(relativeLayout,view1); }
                     } else {
-                        life--;
-                        if (life==2){
-                            ((ImageView)findViewById(R.id.imageViewLife1)).setImageResource(0);
-                        } else ((ImageView)findViewById(R.id.imageViewLife2)).setImageResource(0);
-                        final int[] l = {1};
-                        relativeLayout.removeView(view1);
-                        ((ImageView)findViewById(R.id.imageViewEgg24Crush)).setImageResource(R.drawable.egg);
-                        CountDownTimer waitTimer = new CountDownTimer(1500, 500) {
-                            @Override
-                            public void onTick(long millisUntilFinished) {
-                                if (l[0] !=1) {
-                                    ((ImageView) findViewById(R.id.imageViewEgg24Crush)).setImageResource(0);
-                                } else l[0]++;
-                            }
-
-                            @Override
-                            public void onFinish() {
-                            }
-                        }.start();
-
+                        if (z<5) { dontCatch((ImageView) findViewById(R.id.imageViewEgg24Crush),relativeLayout,view1); }
+                        else relativeLayout.removeView(view1);
                     }
                 }
             }
 
-//    @Override
-//    public void onAnimationPause(Animator animation) {
-//        super.onAnimationPause(animation);
-//    }
-//
-//    @Override
-//    public void onAnimationResume(Animator animation) {
-//        super.onAnimationResume(animation);
-//    }
 });
-//        CountDownTimer waitTimer = new CountDownTimer(6000,2200) {
-//            @Override
-//            public void onTick(long millisUntilFinished) {
-//                Rect rc1 = new Rect();
-//                view1.getDrawingRect(rc1);
-//                Rect rc2 = new Rect();
-//                findViewById(R.id.imageViewWolf).getDrawingRect(rc2);
-//                if (Rect.intersects(rc1,rc2) && wolfPosition==1) {
-//                    relativeLayout.removeView(view1);
-//                }
-//            }
-//            @Override
-//            public void onFinish() {
-//
-//            }
-//        }.start();
-//
 
-//        Rect rc1 = new Rect();
-//        view1.getDrawingRect(rc1);
-//        Rect rc2 = new Rect();
-//        findViewById(R.id.imageViewWolf).getDrawingRect(rc2);
-//
-//        if (Rect.intersects(rc1, rc2) && wolfPosition == 1) {
-//            relativeLayout.removeView(view1);
-//        }
-//        new DeleteEggextends().doInBackground(view1,wolfPosition,relativeLayout);
+    }
 
-//        try {
-//            Log.i(TAG, "Going to sleep");
-//            TimeUnit.SECONDS.sleep(1);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        SystemClock.sleep(1000);
+    private void catchLife(RelativeLayout relativeLayout, View view1) {
+        if (life!=3) { life++; }
+        if (life==3){
+            ((ImageView)findViewById(R.id.imageViewLife1)).setImageResource(R.drawable.heart);
+        } else ((ImageView)findViewById(R.id.imageViewLife2)).setImageResource(R.drawable.heart);
+        relativeLayout.removeView(view1);
+    }
 
+    private void dontCatch (final ImageView imageView, RelativeLayout relativeLayout, View view1){
+        life--;
+        if (life==2){
+            ((ImageView)findViewById(R.id.imageViewLife1)).setImageResource(0);
+        } else ((ImageView)findViewById(R.id.imageViewLife2)).setImageResource(0);
+        final int[] l = {1};
+        relativeLayout.removeView(view1);
+        (imageView).setImageResource(R.drawable.egg);
+        CountDownTimer waitTimer = new CountDownTimer(1500, 500) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if (l[0] !=1) {
+                    (imageView).setImageResource(0);
+                } else l[0]++;
+            }
+
+            @Override
+            public void onFinish() {
+            }
+        }.start();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
