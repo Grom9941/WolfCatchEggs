@@ -6,6 +6,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.graphics.Rect;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.support.annotation.RequiresApi;
@@ -17,6 +18,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Random;
 import java.util.Timer;
 // todo how compare png and imageview
@@ -62,16 +65,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void spawnEgg(){
-        byte random1 = (byte) (new Random().nextInt(50)+10);
+        byte random1 = (byte) (new Random().nextInt(69)+10);
         Integer random2 = new Random().nextInt(4)+1;
-
-
-            switch (random1/10) {
-                case 5:egg((byte) (random1/10),random2);// с 50 до 59
-                case 6:egg((byte) (random1/10),random2); //60
-                default:egg((byte) (random1/10),random2);//с 1 до 49
-            }
-//                egg((byte) 1,random2);
+        egg((byte) 7,random2);
     }
 
     @SuppressLint("InflateParams")
@@ -86,9 +82,13 @@ public class MainActivity extends AppCompatActivity {
             LayoutInflater inflater = getLayoutInflater();
             view1 = inflater.inflate(R.layout.heart, null, false);
             relativeLayout = findViewById(R.id.relative);
+        } else if (z==6){
+            LayoutInflater inflater = getLayoutInflater();
+            view1 = inflater.inflate(R.layout.current, null, false);
+            relativeLayout = findViewById(R.id.relative);
         } else {
             LayoutInflater inflater = getLayoutInflater();
-            view1 = inflater.inflate(R.layout.heart, null, false);
+            view1 = inflater.inflate(R.layout.bomb, null, false);
             relativeLayout = findViewById(R.id.relative);
         }
 
@@ -152,32 +152,39 @@ public class MainActivity extends AppCompatActivity {
                     if (Rect.intersects(rc1, rc2) && wolfPosition == 1) {
                         relativeLayout.removeView(view1);
                         if (z==5) { catchLife(relativeLayout,view1); }
+                        if (z==6) { catchCurrent(); }
+                        if (z==7) { catchBomb(); }
                     } else {
-                        if (z<5) { dontCatch((ImageView) findViewById(R.id.imageViewEgg13Crush), relativeLayout, view1); }
+                        if (z<5) { dontCatch((ImageView) findViewById(R.id.imageViewEgg13Crush)); }
                         else relativeLayout.removeView(view1);
                     }
                 } else if (whereTube==2) {
                     if (Rect.intersects(rc1, rc2) && wolfPosition == 2) {
                         relativeLayout.removeView(view1);
                         if (z==5) { catchLife(relativeLayout,view1); }
+                        if (z==6) { catchCurrent(); }
+                        if (z==7) { catchBomb(); }
                     }else {
-                        if (z<5) { dontCatch((ImageView) findViewById(R.id.imageViewEgg24Crush), relativeLayout, view1); }
+                        if (z<5) { dontCatch((ImageView) findViewById(R.id.imageViewEgg24Crush)); }
                         else relativeLayout.removeView(view1);
                     }
                 } else if (whereTube==3) {
                     if (Rect.intersects(rc1, rc2) && wolfPosition == 3) {
                         relativeLayout.removeView(view1);
                         if (z==5) { catchLife(relativeLayout,view1); }
+                        if (z==6) { catchCurrent(); }
+                        if (z==7) { catchBomb(); }
                     } else {
-                        if (z<5) { dontCatch((ImageView) findViewById(R.id.imageViewEgg13Crush),relativeLayout,view1); }
+                        if (z<5) { dontCatch((ImageView) findViewById(R.id.imageViewEgg13Crush)); }
                         else relativeLayout.removeView(view1);
                     }
                 } else if (whereTube==4) {
                     if (Rect.intersects(rc1, rc2) && wolfPosition == 4) {
                         relativeLayout.removeView(view1);
                         if (z==5) { catchLife(relativeLayout,view1); }
+                        if (z==6) { catchCurrent(); }
                     } else {
-                        if (z<5) { dontCatch((ImageView) findViewById(R.id.imageViewEgg24Crush),relativeLayout,view1); }
+                        if (z<5) { dontCatch((ImageView) findViewById(R.id.imageViewEgg24Crush)); }
                         else relativeLayout.removeView(view1);
                     }
                 }
@@ -185,6 +192,42 @@ public class MainActivity extends AppCompatActivity {
 
 });
 
+    }
+
+    private void catchBomb() {
+        life--;
+        if (life==2){
+            ((ImageView)findViewById(R.id.imageViewLife1)).setImageResource(0);
+        } else ((ImageView)findViewById(R.id.imageViewLife2)).setImageResource(0);
+
+//        ImageView imageView = findViewById(R.id.imageViewWolf);
+//        imageView.setBackgroundResource(R.drawable.bombing);
+//        AnimationDrawable animation = (AnimationDrawable) imageView.getBackground();
+//        animation.setOneShot(false);
+//        animation.start();
+    }
+
+    private void catchCurrent() {
+        final boolean[] clickable = {false};
+        CountDownTimer waitTimer = new CountDownTimer(1500, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                ((ImageView) findViewById(R.id.imageViewLight)).setImageResource(R.drawable.light);
+                findViewById(R.id.imageButton1).setClickable(clickable[0]);
+                findViewById(R.id.imageButton2).setClickable(clickable[0]);
+                findViewById(R.id.imageButton3).setClickable(clickable[0]);
+                findViewById(R.id.imageButton4).setClickable(clickable[0]);
+                clickable[0] = true;
+            }
+            @Override
+            public void onFinish() {
+                ((ImageView) findViewById(R.id.imageViewLight)).setImageResource(0);
+                findViewById(R.id.imageButton1).setClickable(clickable[0]);
+                findViewById(R.id.imageButton2).setClickable(clickable[0]);
+                findViewById(R.id.imageButton3).setClickable(clickable[0]);
+                findViewById(R.id.imageButton4).setClickable(clickable[0]);
+            }
+        }.start();
     }
 
     private void catchLife(RelativeLayout relativeLayout, View view1) {
@@ -195,14 +238,14 @@ public class MainActivity extends AppCompatActivity {
         relativeLayout.removeView(view1);
     }
 
-    private void dontCatch (final ImageView imageView, RelativeLayout relativeLayout, View view1){
+    private void dontCatch (final ImageView imageView){
         life--;
         if (life==2){
             ((ImageView)findViewById(R.id.imageViewLife1)).setImageResource(0);
         } else ((ImageView)findViewById(R.id.imageViewLife2)).setImageResource(0);
         final int[] l = {1};
-        relativeLayout.removeView(view1);
         (imageView).setImageResource(R.drawable.egg);
+
         CountDownTimer waitTimer = new CountDownTimer(1500, 500) {
             @Override
             public void onTick(long millisUntilFinished) {

@@ -196,6 +196,12 @@
             app:srcCompat="@drawable/heart"
             tools:ignore="RtlCompat" />
 
+        <ImageView
+            android:id="@+id/imageViewLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageButton3" />
+
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

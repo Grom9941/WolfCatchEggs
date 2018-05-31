@@ -7,6 +7,6 @@
     <ImageView
         android:layout_width="33dp"
         android:layout_height="36dp"
-        app:srcCompat="@drawable/current"/>
+        app:srcCompat="@drawable/bomb"/>
 
 </android.support.constraint.ConstraintLayout>
