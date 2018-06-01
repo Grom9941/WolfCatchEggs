@@ -153,17 +153,17 @@
 
         <ImageView
             android:id="@+id/imageViewEgg13Crush"
-            android:layout_width="33dp"
-            android:layout_height="36dp"
+            android:layout_width="51dp"
+            android:layout_height="52dp"
             android:layout_alignBottom="@+id/imageViewWolf"
             android:layout_toLeftOf="@+id/imageViewWolf"
             android:layout_toStartOf="@+id/imageViewWolf" />
 
         <ImageView
             android:id="@+id/imageViewEgg24Crush"
-            android:layout_width="33dp"
-            android:layout_height="36dp"
-            android:layout_alignBottom="@+id/imageViewWolf"
+            android:layout_width="51dp"
+            android:layout_height="52dp"
+            android:layout_below="@+id/imageButton3"
             android:layout_toEndOf="@+id/imageViewWolf"
             android:layout_toRightOf="@+id/imageViewWolf" />
 
@@ -206,6 +206,18 @@
             android:id="@+id/imageViewForAnimation"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="90dp"
+            android:layout_height="51dp"
+            android:layout_alignLeft="@+id/imageViewWolf"
+            android:layout_alignStart="@+id/imageViewWolf"
+            android:layout_alignTop="@+id/imageViewTube1"
+            android:layout_marginLeft="-11dp"
+            android:layout_marginStart="-11dp"
+            android:text="0"
+            android:textSize="40dp" />
 
     </RelativeLayout>
 
