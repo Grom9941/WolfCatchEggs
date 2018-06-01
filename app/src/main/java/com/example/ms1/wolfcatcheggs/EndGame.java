@@ -22,7 +22,6 @@ public class EndGame extends AppCompatActivity {
 
     public void restart(View view) {
 
-
         try {
             Intent intent = new Intent(EndGame.this, Game.class);
             startActivity(intent);
