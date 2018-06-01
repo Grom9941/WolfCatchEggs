@@ -2,4 +2,5 @@
     <string name="app_name">WolfCatchEggs</string>
     <string name="pause">Pause</string>
     <string name="startWord">Нажмите чтобы начать</string>
+    <string name="restart">Restart</string>
 </resources>

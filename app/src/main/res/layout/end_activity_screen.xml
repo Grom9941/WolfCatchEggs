@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imageViewNintendo2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/nintendo" />
+
+        <TextView
+            android:id="@+id/textViewTextEnd"
+            android:layout_width="490dp"
+            android:layout_height="109dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:textColor="@android:color/white"
+            android:textSize="60sp"
+            android:gravity="center"
+            tools:layout_editor_absoluteX="98dp"
+            tools:layout_editor_absoluteY="16dp" />
+
+        <Button
+            android:id="@+id/buttonReset"
+            android:layout_width="160dp"
+            android:layout_height="71dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="26dp"
+            android:alpha="0.5"
+            android:onClick="restart"
+            android:text="@string/restart"
+            tools:layout_editor_absoluteX="261dp"
+            tools:layout_editor_absoluteY="252dp" />
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

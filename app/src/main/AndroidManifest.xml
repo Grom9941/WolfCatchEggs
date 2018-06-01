@@ -28,6 +28,12 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".EndGame"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

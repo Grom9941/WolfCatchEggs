@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
@@ -27,12 +28,15 @@ import java.util.Timer;
 public class Game extends AppCompatActivity {
     Timer timer;
 
+    long periodUpdate =100;
     long animatorDiraction = 3000;
     Button pause ;
     boolean pause_flg = false;
     static Byte wolfPosition = 1;
     static Byte life = 3;
     Boolean checkEnd = false;
+    static Integer account = 0;
+    static Integer forCheck=0;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -41,10 +45,10 @@ public class Game extends AppCompatActivity {
 
         timer=new Timer();
 
-        final long[] spawnNewEgg = {5000};
+        final long[] spawnNewEgg = {100};
         final long[] maxTimeSpawn = {spawnNewEgg[0] * 2 + 100};
 
-        final CountDownTimer waitTimer = new CountDownTimer(Long.MAX_VALUE,100) {
+        final CountDownTimer waitTimer = new CountDownTimer(Long.MAX_VALUE,periodUpdate) {
 
             @Override
             public void onTick(long millisUntilFinished) {
@@ -67,11 +71,25 @@ public class Game extends AppCompatActivity {
     private void startTimer(long maxTime,long newEgg){
 
         checkEnd=true;
-        CountDownTimer waitTimer = new CountDownTimer(maxTime, newEgg) {
+        final CountDownTimer waitTimer1 = new CountDownTimer(maxTime, newEgg) {
 
             @Override
             public void onTick(long millisUntilFinished) {
-                if (life>0) { spawnEgg(); }
+                if (life > 0) {
+                    spawnEgg();
+                } else {
+                    if (forCheck==0) {
+                        try {
+                            periodUpdate = Long.MAX_VALUE;
+                            Intent intent = new Intent(Game.this, EndGame.class);
+                            startActivity(intent);
+                            finish();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        forCheck++;
+                    }
+                }
             }
             @Override
             public void onFinish() {
@@ -91,7 +109,6 @@ public class Game extends AppCompatActivity {
 
         ObjectAnimator animatorX,animatorY;
         float x = 0,y = 0;
-        final TextView textView = findViewById(R.id.textView);
         final RelativeLayout relativeLayout;
         final View view1;
         LayoutInflater inflater = getLayoutInflater();
@@ -171,6 +188,7 @@ public class Game extends AppCompatActivity {
                 case 7:
                     catchBomb();break;
                 default:((TextView) findViewById(R.id.textView)).setText(String.valueOf(Integer.parseInt((String) ((TextView) findViewById(R.id.textView)).getText()) + 1));
+                account++;break;
             }
         } else {
             if (z < 5) {
