@@ -3,4 +3,9 @@
     <string name="pause">Pause</string>
     <string name="startWord">Нажмите чтобы начать</string>
     <string name="restart">Restart</string>
+    <string name="level">Выбирите уровень сложности</string>
+    <string name="level_1">level 1</string>
+    <string name="level_2">level 2</string>
+    <string name="level_3">level 3</string>
+    <string name="_0">0</string>
 </resources>

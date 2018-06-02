@@ -6,9 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="30dp"
+        tools:ignore="MissingConstraints">
 
         <ImageView
             android:id="@+id/imageView"
@@ -19,17 +22,50 @@
             tools:layout_editor_absoluteX="45dp"
             tools:layout_editor_absoluteY="77dp" />
 
-        <Button
-            android:id="@+id/button2"
+
+        <TextView
+            android:id="@+id/textView2"
             android:layout_width="match_parent"
-            android:layout_height="115dp"
-            android:alpha="0.5"
-            android:onClick="clickStart"
-            android:text="@string/startWord"
-            android:textSize="35sp"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp" />
-    </FrameLayout>
+            android:layout_height="107dp"
+            android:textSize="40sp"
+            android:gravity="center"
+            android:text="@string/level" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            tools:layout_editor_absoluteY="204dp">
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/level_1"
+                android:onClick="clickButton1"
+                tools:ignore="ButtonStyle" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/level_2"
+                android:onClick="clickButton2"
+                tools:ignore="ButtonStyle" />
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/level_3"
+                android:onClick="clickButton3"
+                tools:ignore="ButtonStyle" />
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
