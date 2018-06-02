@@ -1,9 +1,13 @@
-package com.example.ms1.wolfcatcheggs;
+package com.example.ms1.wolfcatcheggs.View;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import com.example.ms1.wolfcatcheggs.Model.ChangingVariables;
+import com.example.ms1.wolfcatcheggs.Model.Game;
+import com.example.ms1.wolfcatcheggs.R;
 
 public class MainActivity extends AppCompatActivity {
     @Override

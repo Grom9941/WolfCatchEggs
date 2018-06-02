@@ -1,10 +1,10 @@
-package com.example.ms1.wolfcatcheggs;
+package com.example.ms1.wolfcatcheggs.Model;
 
-public class ChangingVariables  {
+ public class ChangingVariables  {
     protected static long spawnNewEgg;
     protected static long animatorDiraction;
 
-    protected ChangingVariables(Byte z) {
+    public ChangingVariables(Byte z) {
             switch (z) {
                 case 1:
                     spawnNewEgg = 5000;
