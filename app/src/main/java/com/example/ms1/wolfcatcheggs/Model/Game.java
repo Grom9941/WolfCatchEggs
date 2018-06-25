@@ -37,8 +37,7 @@ public class Game extends AppCompatActivity {
     private final long[] maxTimeSpawn = {spawnNewEgg[0] * 2 + 100};
 
     private static Byte wolfPosition = 1;
-    private static Byte life = 3;
-    public static Integer account = 0;
+    ObjectGame objectGame = new ObjectGame();
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -47,6 +46,18 @@ public class Game extends AppCompatActivity {
 
         timer=new Timer();
         startTimer(maxTimeSpawn[0], spawnNewEgg[0]);
+
+//        BroadcastReceiver myReciver = new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//
+//                if (spawnNewEgg[0]>200) {
+//                    spawnNewEgg[0] -= delta;
+//                    maxTimeSpawn[0] = spawnNewEgg[0] * 2 + 100;
+//                }
+//                startTimer(maxTimeSpawn[0], spawnNewEgg[0]);
+//            }
+//        };
 
     }
 
@@ -77,12 +88,14 @@ public class Game extends AppCompatActivity {
             @Override
             public void onTick(long millisUntilFinished) {
 
-                if (life > 0) {
+                if (objectGame.getLife() > 0) {
                     spawnEgg();
                 } else {
 
+
                         try {
-                            Intent intent = new Intent(Game.this, EndGame.class);
+                            Intent intent = new Intent(getApplicationContext(), EndGame.class);
+                            intent.putExtra("account", objectGame.getAccount());
                             startActivity(intent);
                             finish();
                         } catch (Exception e) {
@@ -96,6 +109,8 @@ public class Game extends AppCompatActivity {
             @Override
             public void onFinish() {
                 restartTimer();
+//                IntentFilter intentFilter = new IntentFilter();
+//                intentFilter.addAction("return");
             }
         }.start();
     }
@@ -217,7 +232,7 @@ public class Game extends AppCompatActivity {
 
                 default:((TextView) findViewById(R.id.textView)).setText(String.valueOf(
                         Integer.parseInt((String) ((TextView) findViewById(R.id.textView)).getText()) + 1));
-                account++;
+                objectGame.setAccount();
                 break;
             }
         } else {
@@ -293,9 +308,9 @@ public class Game extends AppCompatActivity {
      */
     private void catchLife(RelativeLayout relativeLayout, View viewHeart) {
 
-        if (life!=3) { life++; }
+        if (objectGame.getLife()!=3) { objectGame.setLife((byte) (objectGame.getLife()+1)); }
 
-        if (life==3){
+        if (objectGame.getLife()==3){
             ((ImageView)findViewById(R.id.imageViewLife1)).setImageResource(R.drawable.heart);
         } else ((ImageView)findViewById(R.id.imageViewLife2)).setImageResource(R.drawable.heart);
 
@@ -309,9 +324,9 @@ public class Game extends AppCompatActivity {
     private void dontCatch (final ImageView imageView){
 
         final int[] l = {1};
-        life--;
+        objectGame.setLife((byte) (objectGame.getLife()-1));
 
-        if (life==2){ ((ImageView)findViewById(R.id.imageViewLife1)).setImageResource(0);
+        if (objectGame.getLife()==2){ ((ImageView)findViewById(R.id.imageViewLife1)).setImageResource(0);
         } else ((ImageView)findViewById(R.id.imageViewLife2)).setImageResource(0);
 
         (imageView).setImageResource(R.drawable.eggbroken);

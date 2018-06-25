@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.ms1.wolfcatcheggs.Model.Game;
+import com.example.ms1.wolfcatcheggs.Model.ObjectGame;
 import com.example.ms1.wolfcatcheggs.R;
 
 public class EndGame extends AppCompatActivity {
@@ -19,7 +20,9 @@ public class EndGame extends AppCompatActivity {
         setContentView(R.layout.end_activity_screen);
 
         TextView textEnd = findViewById(R.id.textViewTextEnd);
-        textEnd.setText("Твой счет: " + String.valueOf(Game.account));
+       // savedInstanceState.getByte("account");
+
+        textEnd.setText("Твой счет: " + String.valueOf(getIntent().getIntExtra("account",5)));
 
     }
 
